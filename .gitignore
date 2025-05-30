@@ -47,3 +47,10 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+#Everything else
+app
+global_v1
+server_v1
+ui_v1
+ui_v2
