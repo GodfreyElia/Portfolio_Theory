@@ -1,5 +1,12 @@
 # 📈 Stock Portfolio Optimization Dashboard
 
+<br clear="both">
+
+<div align="center">
+  <img height="300" width="100%" src="https://github.com/GodfreyElia/Portfolio_Theory/blob/main/Efficient%20frontier.png"  />
+</div>
+
+
 An interactive R Shiny `shinydashboard` web application for analyzing and optimizing stock portfolios using historical data. The dashboard enables users to visualize stock performance, compute optimal asset allocations, and evaluate risk metrics such as Value at Risk (VaR) and Sharpe Ratios.
 
 ## 🔧 Features
