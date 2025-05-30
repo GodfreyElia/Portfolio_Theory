@@ -1,0 +1,140 @@
+server <- function(input, output, session) {
+
+  # Overview Tab
+  output$stock_prices_plot <- renderPlotly({
+    df <- adjusted_prices %>%
+      fortify.zoo() %>%
+      pivot_longer(-Index, names_to = "Stock", values_to = "Price")
+
+    plot_ly(df, x = ~Index, y = ~Price, color = ~Stock, type = 'scatter', mode = 'lines') %>%
+      layout(title = "Adjusted Closing Prices",
+             xaxis = list(title = "Date"),
+             yaxis = list(title = "Price"))
+  })
+
+  output$stock_returns_plot <- renderPlotly({
+    df <- daily_returns %>%
+      fortify.zoo() %>%
+      pivot_longer(-Index, names_to = "Stock", values_to = "Return")
+
+    plot_ly(df, x = ~Index, y = ~Return, color = ~Stock, type = 'scatter', mode = 'lines') %>%
+      layout(title = "Daily Returns",
+             xaxis = list(title = "Date"),
+             yaxis = list(title = "Return"))
+  })
+
+  output$adjusted_data_table <- renderDT({
+    datatable(as.data.frame(adjusted_prices), options = list(pageLength = 10))
+  })
+
+  output$returns_data_table <- renderDT({
+    datatable(as.data.frame(daily_returns), options = list(pageLength = 10))
+  })
+
+  # Portfolio Analysis Tab
+  output$mean_sd_table <- renderDT({
+    df <- data.frame(Asset = stock_symbols,
+                     MeanReturn = round(mean_returns, 4),
+                     StdDev = round(sd_returns, 4))
+    datatable(df)
+  })
+
+  output$covariance_table <- renderDT({
+    datatable(round(cov_matrix, 4))
+  })
+
+  output$efficient_frontier_plot <- renderPlot({
+    plot(efficient_frontier$Risk, efficient_frontier$Return,
+         col = "blue", pch = 20, xlab = "Risk (Std Dev)", ylab = "Return",
+         main = "Efficient Frontier")
+    points(efficient_frontier$Risk[gmv_index], efficient_frontier$Return[gmv_index],
+           col = "red", pch = 17, cex = 1.5)
+    points(efficient_frontier$Risk[tangency_index], efficient_frontier$Return[tangency_index],
+           col = "green", pch = 15, cex = 1.5)
+    legend("bottomright", legend = c("Portfolios", "GMV", "Tangency"),
+           col = c("blue", "red", "green"), pch = c(20, 17, 15))
+  })
+
+  output$optimal_weights_table <- renderDT({
+    datatable(gmv_weights_df)
+  })
+
+  output$optimal_weights_chart <- renderPlot({
+    barplot(gmv_weights_df$Weight, names.arg = gmv_weights_df$Asset,
+            col = "skyblue", main = "GMV Portfolio Weights", ylab = "Weight")
+  })
+
+  output$tangency_weights_table <- renderDT({
+    datatable(tangency_weights_df)
+  })
+
+  output$tangency_weights_chart <- renderPlot({
+    barplot(tangency_weights_df$Weight, names.arg = tangency_weights_df$Asset,
+            col = "lightgreen", main = "Tangency Portfolio Weights", ylab = "Weight")
+  })
+
+  # Risk Management Tab
+  output$var_table <- renderDT({
+    df <- data.frame(Asset = stock_symbols, VaR_95 = round(var_95, 4))
+    datatable(df)
+  })
+
+  output$sharpe_ratio_plot <- renderPlot({
+    barplot(sharpe_ratios_df$SharpeRatio, names.arg = sharpe_ratios_df$Asset,
+            col = "orange", main = "Sharpe Ratios", ylab = "Sharpe Ratio")
+  })
+
+  output$correlation_plot <- renderPlot({
+    corrplot::corrplot(cor_matrix, method = "color", type = "upper",
+                       tl.col = "black", tl.srt = 45)
+  })
+
+  # Comparisons Tab
+  output$sharpe_performance_table <- renderDT({
+    df <- data.frame(
+      Portfolio = c("Tangency", "Equal Weight"),
+      SharpeRatio = c(
+        round(efficient_frontier$Sharpe[tangency_index], 4),
+        round(mean(sharpe_ratios), 4)
+      )
+    )
+    datatable(df)
+  })
+
+  output$sharpe_comparison_text <- renderPrint({
+    monte_carlo_sharpes <- efficient_frontier$Sharpe
+    equal_weight_sharpe <- mean(sharpe_ratios)
+    proportion_better <- mean(monte_carlo_sharpes > equal_weight_sharpe)
+    cat(sprintf("Proportion of Monte Carlo portfolios outperforming Equal Weight: %.2f%%",
+                proportion_better * 100))
+  })
+
+  output$target_risk_summary <- renderDT({
+    target_return <- sum(gmv_weights * mean_returns)
+    target_risk <- sqrt(t(gmv_weights) %*% cov_matrix %*% gmv_weights)
+    df <- data.frame(Return = round(target_return, 4), Risk = round(target_risk, 4))
+    datatable(df)
+  })
+
+  output$tangency_summary <- renderDT({
+    tangency_return <- sum(tangency_weights * mean_returns)
+    tangency_risk <- sqrt(t(tangency_weights) %*% cov_matrix %*% tangency_weights)
+    df <- data.frame(Return = round(tangency_return, 4), Risk = round(tangency_risk, 4))
+    datatable(df)
+  })
+
+  output$mv_frontiers_plot <- renderPlot({
+    plot(efficient_frontier$Risk, efficient_frontier$Return,
+         col = "blue", pch = 20, xlab = "Risk (Std Dev)", ylab = "Return",
+         main = "Mean-Variance Frontiers")
+    abline(a = risk_free_rate,
+           b = (efficient_frontier$Return[tangency_index] - risk_free_rate) /
+             efficient_frontier$Risk[tangency_index],
+           col = "red", lwd = 2)
+    points(sd_returns, mean_returns, col = "green", pch = 16)
+    points(efficient_frontier$Risk[gmv_index], efficient_frontier$Return[gmv_index], col = "red", pch = 17, cex = 1.5)
+    points(efficient_frontier$Risk[tangency_index], efficient_frontier$Return[tangency_index], col = "green", pch = 15, cex = 1.5)
+    legend("bottomright", legend = c("Portfolios", "Capital Market Line", "Assets", "GMV", "Tangency"),
+           col = c("blue", "red", "green", "red", "green"), pch = c(20, NA, 16, 17, 15), lty = c(NA, 1, NA, NA, NA))
+  })
+}
