@@ -49,7 +49,7 @@ po/*~
 rsconnect/
 
 #Everything else
-app
+app.R
 global_v1
 server_v1
 ui_v1
