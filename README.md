@@ -6,10 +6,13 @@
   <img height="400" width="100%" src="https://github.com/GodfreyElia/Portfolio_Theory/blob/main/Efficient%20frontier.png"  />
 </div>
 
+##  Description: 
 
-An interactive R Shiny `shinydashboard` web application for analyzing and optimizing stock portfolios using historical data. The dashboard enables users to visualize stock performance, compute optimal asset allocations, and evaluate risk metrics such as Value at Risk (VaR) and Sharpe Ratios.
+I have built this dashboard in R to provide an interactive way of analysing popular stocks using the principles of portfolio theory. The dashoboard is hosted by Shinyapps and uses live stock market data of 15 select stocks from yahoo finance. In using the dashboard, you will be able to explore latest stock prices, daily returns, key portfolio metrics, and portfolio optimization strategies. Furthermore, you will also be enabled to visualize stock performance, compute optimal asset allocations, and evaluate risk metrics such as Value at Risk (VaR) and Sharpe Ratios.
 
-## 🔧 Features
+## 🔧 Features.
+
+What to expect in the dashboard:
 
 ### 🗂 Overview Tab
 - Adjusted Closing Prices (Interactive Plot)
@@ -37,26 +40,14 @@ An interactive R Shiny `shinydashboard` web application for analyzing and optimi
 - Capital Market Line vs Efficient Frontier (Static ggplot)
 - Summary stats for GMV and Tangency Portfolios
 
-### 🔮 Prediction Tab
-- Select a stock and apply different machine learning models to forecast next-day return
-- Supported methods: Linear Regression, SVM, Random Forest, Bagging, Boosting
-
 ## 🧠 Under the Hood
 
 - **Data Source**: Stock data retrieved using `quantmod` or equivalent methods
 - **Optimization**: Mean-Variance Optimization using covariance matrices and risk-return trade-offs
 - **Risk Metrics**: Value at Risk (95%), Sharpe Ratios
-- **Forecasting Models**: Based on `caret` or `mlr` frameworks with customizable input
 
 ## 🚀 Getting Started
 
-### Prerequisites
+Please find the dashboard (here)[https://godfreyelia.shinyapps.io/Portfolio_Theory/]
 
-Make sure you have the following R packages installed:
-
-```r
-install.packages(c(
-  "shiny", "shinydashboard", "quantmod", "PerformanceAnalytics",
-  "PortfolioAnalytics", "tseries", "plotly", "ggplot2", "DT",
-  "caret", "randomForest", "e1071", "gbm", "corrplot", "dplyr", "tidyr", "zoo"
-))
+I hope you have fun and learn something. Please, if you have any feedback for me, kindly send an email using the link embedded in the dashboard.
