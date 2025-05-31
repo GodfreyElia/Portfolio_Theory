@@ -3,7 +3,7 @@
 <br clear="both">
 
 <div align="center">
-  <img height="400" width="100%" src="https://github.com/GodfreyElia/Portfolio_Theory/blob/main/Efficient%20frontier.png"  />
+  <img height="50%" width="100%" src="https://github.com/GodfreyElia/Portfolio_Theory/blob/main/Efficient%20frontier.png"  />
 </div>
 
 ##  Description: 
