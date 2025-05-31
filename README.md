@@ -48,6 +48,7 @@ What to expect in the dashboard:
 
 ## 🚀 Getting Started
 
-Please find the dashboard (here)[https://godfreyelia.shinyapps.io/Portfolio_Theory/]
+Please find the dashboard [here](https://godfreyelia.shinyapps.io/Portfolio_Theory/)
 
 I hope you have fun and learn something. Please, if you have any feedback for me, kindly send an email using the link embedded in the dashboard.
+---
