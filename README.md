@@ -8,7 +8,7 @@
 
 ##  Description: 
 
-I have built this dashboard in R to provide an interactive way of analysing popular stocks using the principles of portfolio theory. The dashoboard is hosted by Shinyapps and uses live stock market data of 15 select stocks from yahoo finance. In using the dashboard, you will be able to explore latest stock prices, daily returns, key portfolio metrics, and portfolio optimization strategies. Furthermore, you will also be enabled to visualize stock performance, compute optimal asset allocations, and evaluate risk metrics such as Value at Risk (VaR) and Sharpe Ratios.
+I built this dashboard in R to provide an interactive way of analysing popular stocks using the principles of portfolio theory. The dashoboard is hosted by Shinyapps and uses live stock market data of 15 select stocks from yahoo finance. In using the dashboard, you will be able to explore latest stock prices, daily returns, key portfolio metrics, and portfolio optimization strategies. Furthermore, you will also be enabled to visualize stock performance, compute optimal asset allocations, and evaluate risk metrics such as Value at Risk (VaR) and Sharpe Ratios.
 
 ## 🔧 Features.
 
